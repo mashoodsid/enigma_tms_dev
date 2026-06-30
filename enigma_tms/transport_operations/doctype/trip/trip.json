@@ -1,0 +1,357 @@
+{
+ "actions": [],
+ "autoname": "TRIP-.YYYY.-.#####",
+ "creation": "2026-06-23 00:00:00",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "transport_order",
+  "customer",
+  "order_line",
+  "trailer_type",
+  "route",
+  "column_break_1",
+  "status",
+  "section_assign",
+  "tractor",
+  "trailer",
+  "driver",
+  "column_break_2",
+  "ownership",
+  "subcontractor",
+  "section_schedule",
+  "planned_start",
+  "actual_start",
+  "column_break_3",
+  "planned_end",
+  "actual_end",
+  "section_odo",
+  "odometer_start",
+  "odometer_end",
+  "actual_distance",
+  "section_stops",
+  "stops",
+  "section_pod",
+  "pods",
+  "section_activity",
+  "activity_log",
+  "section_costs",
+  "costs",
+  "section_fin",
+  "selling_amount",
+  "buying_total",
+  "trip_profit",
+  "suggested_detention_hours",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "transport_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Transport Order",
+   "options": "Transport Order",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "transport_order.customer",
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "order_line",
+   "fieldtype": "Int",
+   "label": "Lane #",
+   "read_only": 1
+  },
+  {
+   "fieldname": "trailer_type",
+   "fieldtype": "Link",
+   "label": "Required Trailer Type",
+   "options": "Trailer Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Route",
+   "options": "Transport Route",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_preview": 1,
+   "label": "Status",
+   "options": "Draft\nAssigned\nCompleted\nCancelled\nIn Transit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_assign",
+   "fieldtype": "Section Break",
+   "label": "Assignment",
+   "read_only_depends_on": "eval: [\"In Transit\", \"Completed\"].includes(doc.status)"
+  },
+  {
+   "fieldname": "tractor",
+   "fieldtype": "Link",
+   "label": "Tractor",
+   "options": "Tractor"
+  },
+  {
+   "fieldname": "trailer",
+   "fieldtype": "Link",
+   "label": "Trailer",
+   "options": "Trailer"
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "label": "Driver",
+   "options": "Driver"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ownership",
+   "fieldtype": "Select",
+   "label": "Ownership",
+   "options": "\nOwned\nOutsourced",
+   "read_only": 1
+  },
+  {
+   "fieldname": "subcontractor",
+   "fieldtype": "Link",
+   "label": "Subcontractor",
+   "options": "Supplier",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_schedule",
+   "fieldtype": "Section Break",
+   "label": "Schedule"
+  },
+  {
+   "fetch_from": "transport_order.required_by",
+   "fieldname": "planned_start",
+   "fieldtype": "Datetime",
+   "label": "Planned Start"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actual_start",
+   "fieldtype": "Datetime",
+   "label": "Actual Start"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "planned_end",
+   "fieldtype": "Datetime",
+   "label": "Planned End"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actual_end",
+   "fieldtype": "Datetime",
+   "label": "Actual End"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_odo",
+   "fieldtype": "Section Break",
+   "label": "Odometer (Tractor)"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "odometer_start",
+   "fieldtype": "Float",
+   "label": "Odometer Start"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "odometer_end",
+   "fieldtype": "Float",
+   "label": "Odometer End"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actual_distance",
+   "fieldtype": "Float",
+   "label": "Actual Distance (km)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_stops",
+   "fieldtype": "Section Break",
+   "label": "Stops"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "stops",
+   "fieldtype": "Table",
+   "label": "Stops",
+   "options": "Transport Stop"
+  },
+  {
+   "fieldname": "section_pod",
+   "fieldtype": "Section Break",
+   "label": "Proof of Dispatch/Delivery (per drop, multi-photo)"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "pods",
+   "fieldtype": "Table",
+   "label": "POD",
+   "options": "Trip POD"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_activity",
+   "fieldtype": "Section Break",
+   "label": "Activity Log"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "activity_log",
+   "fieldtype": "Table",
+   "label": "Activity",
+   "options": "Trip Activity"
+  },
+  {
+   "fieldname": "section_costs",
+   "fieldtype": "Section Break",
+   "label": "Costs"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "costs",
+   "fieldtype": "Table",
+   "label": "Costs",
+   "options": "Trip Cost"
+  },
+  {
+   "fieldname": "section_fin",
+   "fieldtype": "Section Break",
+   "label": "Financials"
+  },
+  {
+   "fieldname": "selling_amount",
+   "fieldtype": "Currency",
+   "label": "Selling Amount",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "buying_total",
+   "fieldtype": "Currency",
+   "label": "Buying Total",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "trip_profit",
+   "fieldtype": "Currency",
+   "label": "Trip Profit",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "description": "Excess waiting beyond free hours, summed across stops. Bill manually on the invoice (\u00a75.3).",
+   "fieldname": "suggested_detention_hours",
+   "fieldtype": "Float",
+   "label": "Suggested Detention Hours",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Trip",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-06-30 00:38:57.618221",
+ "modified_by": "Administrator",
+ "module": "Transport Operations",
+ "name": "Trip",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transport Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dispatcher",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transport Finance"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "creation": "2026-06-23 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "route",
+  "trailer_type",
+  "commodity",
+  "base_rate",
+  "min_charge",
+  "col_break_1",
+  "extra_stop_charge",
+  "extra_stop_basis",
+  "fuel_surcharge_pct",
+  "section_break_det",
+  "detention_free_hours",
+  "detention_rate_per_hour",
+  "detention_basis"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "route",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Route",
+   "options": "Transport Route",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "trailer_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Trailer Type",
+   "options": "Trailer Type",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "base_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Base Rate (per trailer)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "min_charge",
+   "fieldtype": "Currency",
+   "label": "Min Charge (per trailer)"
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "extra_stop_charge",
+   "fieldtype": "Currency",
+   "label": "Extra Stop Charge"
+  },
+  {
+   "default": "Flat",
+   "fieldname": "extra_stop_basis",
+   "fieldtype": "Select",
+   "label": "Extra Stop Basis",
+   "options": "Flat\nPer Trailer"
+  },
+  {
+   "fieldname": "fuel_surcharge_pct",
+   "fieldtype": "Percent",
+   "label": "Fuel Surcharge %"
+  },
+  {
+   "fieldname": "section_break_det",
+   "fieldtype": "Section Break",
+   "label": "Detention (reference \u2014 billed manually)"
+  },
+  {
+   "fieldname": "detention_free_hours",
+   "fieldtype": "Float",
+   "label": "Detention Free Hours"
+  },
+  {
+   "fieldname": "detention_rate_per_hour",
+   "fieldtype": "Currency",
+   "label": "Detention Rate / Hour"
+  },
+  {
+   "default": "Per Trailer",
+   "fieldname": "detention_basis",
+   "fieldtype": "Select",
+   "label": "Detention Basis",
+   "options": "Per Trailer\nFlat"
+  },
+  {
+   "fieldname": "commodity",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Commodity",
+   "options": "Commodity",
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-29 22:52:51.132371",
+ "modified_by": "Administrator",
+ "module": "Transport Pricing",
+ "name": "Rate Card Line",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

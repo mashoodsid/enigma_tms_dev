@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include enigma_tms *.css
+recursive-include enigma_tms *.csv
+recursive-include enigma_tms *.html
+recursive-include enigma_tms *.ico
+recursive-include enigma_tms *.js
+recursive-include enigma_tms *.json
+recursive-include enigma_tms *.md
+recursive-include enigma_tms *.png
+recursive-include enigma_tms *.py
+recursive-include enigma_tms *.svg
+recursive-include enigma_tms *.txt
+recursive-exclude enigma_tms *.pyc

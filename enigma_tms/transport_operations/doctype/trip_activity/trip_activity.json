@@ -1,0 +1,32 @@
+{
+ "actions": [],
+ "creation": "2026-06-23 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "istable": 1,
+ "field_order": [
+  "status",
+  "timestamp",
+  "actor",
+  "photo",
+  "notes"
+ ],
+ "fields": [
+  {"fieldname": "status", "fieldtype": "Data", "label": "Status", "in_list_view": 1, "columns": 2},
+  {"fieldname": "timestamp", "fieldtype": "Datetime", "label": "Timestamp", "in_list_view": 1, "columns": 2},
+  {"fieldname": "actor", "fieldtype": "Link", "label": "Actor", "options": "User", "in_list_view": 1, "columns": 2},
+  {"fieldname": "photo", "fieldtype": "Attach Image", "label": "Photo"},
+  {"fieldname": "notes", "fieldtype": "Small Text", "label": "Notes", "in_list_view": 1, "columns": 3}
+ ],
+ "links": [],
+ "modified": "2026-06-23 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Transport Operations",
+ "name": "Trip Activity",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,141 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "TRL-.#####",
+ "creation": "2026-06-23 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plate_number",
+  "trailer_type",
+  "column_break_1",
+  "ownership",
+  "subcontractor",
+  "section_break_cap",
+  "capacity_tons",
+  "capacity_cbm",
+  "column_break_2",
+  "status",
+  "company"
+ ],
+ "fields": [
+  {
+   "fieldname": "plate_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Plate Number",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "trailer_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Trailer Type",
+   "options": "Trailer Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Owned",
+   "fieldname": "ownership",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Ownership",
+   "options": "Owned\nOutsourced",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.ownership=='Outsourced'",
+   "fieldname": "subcontractor",
+   "fieldtype": "Link",
+   "label": "Subcontractor",
+   "mandatory_depends_on": "eval:doc.ownership=='Outsourced'",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "section_break_cap",
+   "fieldtype": "Section Break",
+   "label": "Capacity"
+  },
+  {
+   "fieldname": "capacity_tons",
+   "fieldtype": "Float",
+   "label": "Capacity (Tons)"
+  },
+  {
+   "fieldname": "capacity_cbm",
+   "fieldtype": "Float",
+   "label": "Capacity (CBM)"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Available",
+   "description": "Derived from trips (display only). Maintenance / Inactive are set manually.",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Available\nOn Trip\nUnder Maintenance\nInactive"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  }
+ ],
+ "links": [],
+ "modified": "2026-06-29 23:18:41.790903",
+ "modified_by": "Administrator",
+ "module": "Transport Setup",
+ "name": "Trailer",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transport Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dispatcher",
+   "write": 1
+  }
+ ],
+ "search_fields": "trailer_type, capacity_tons, capacity_cbm, ownership",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "plate_number",
+ "track_changes": 1
+}

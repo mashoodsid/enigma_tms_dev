@@ -1,0 +1,158 @@
+{
+ "actions": [],
+ "creation": "2026-06-23 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "commodity",
+  "qty",
+  "route",
+  "trailer_type",
+  "qty_trailers",
+  "total_stops",
+  "col_break_1",
+  "base_rate",
+  "extra_stop_charge",
+  "extra_stop_basis",
+  "fuel_surcharge_pct",
+  "min_charge",
+  "amounts_section",
+  "extra_stop_amount",
+  "fuel_surcharge_amount",
+  "line_total",
+  "manual_price_flag"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "route",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Route",
+   "options": "Transport Route",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "trailer_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Trailer Type",
+   "options": "Trailer Type",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "default": "1",
+   "fieldname": "qty_trailers",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "No of Trailers",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "description": "Derived from tagged stops on this lane.",
+   "fieldname": "total_stops",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Stops",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "base_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate (per trailer)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extra_stop_charge",
+   "fieldtype": "Currency",
+   "label": "Extra Stop Charge"
+  },
+  {
+   "default": "Flat",
+   "fieldname": "extra_stop_basis",
+   "fieldtype": "Select",
+   "label": "Extra Stop Basis",
+   "options": "Flat\nPer Trailer"
+  },
+  {
+   "fieldname": "fuel_surcharge_pct",
+   "fieldtype": "Percent",
+   "label": "Fuel Surcharge %"
+  },
+  {
+   "fieldname": "min_charge",
+   "fieldtype": "Currency",
+   "label": "Min Charge (per trailer)"
+  },
+  {
+   "fieldname": "amounts_section",
+   "fieldtype": "Section Break",
+   "label": "Computed Amounts"
+  },
+  {
+   "fieldname": "extra_stop_amount",
+   "fieldtype": "Currency",
+   "label": "Extra Stop Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "fuel_surcharge_amount",
+   "fieldtype": "Currency",
+   "label": "Fuel Surcharge Amount",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "line_total",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Line Total",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "Set when a manager entered a price with no matching rate card (audit).",
+   "fieldname": "manual_price_flag",
+   "fieldtype": "Check",
+   "label": "Manual Price Override",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "commodity",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Commodity",
+   "options": "Commodity",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Qty (Ton)"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-29 22:52:37.490141",
+ "modified_by": "Administrator",
+ "module": "Transport Operations",
+ "name": "Transport Order Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

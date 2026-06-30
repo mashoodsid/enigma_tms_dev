@@ -1,0 +1,142 @@
+{
+ "actions": [],
+ "creation": "2026-06-23 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "order_line",
+  "seq",
+  "stop_type",
+  "location",
+  "col_break_1",
+  "planned_datetime",
+  "weight_tons",
+  "load_description",
+  "contact_section",
+  "contact_person",
+  "contact_phone",
+  "exec_section",
+  "status",
+  "arrival_datetime",
+  "departure_datetime",
+  "waiting_hours"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "description": "Order Item lane (idx) this stop belongs to.",
+   "fieldname": "order_line",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Lane #"
+  },
+  {
+   "columns": 1,
+   "fieldname": "seq",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Seq",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "stop_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Pickup\nDrop",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Location",
+   "options": "Transport Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "planned_datetime",
+   "fieldtype": "Datetime",
+   "label": "Planned"
+  },
+  {
+   "fieldname": "weight_tons",
+   "fieldtype": "Float",
+   "label": "Weight (Tons)"
+  },
+  {
+   "fieldname": "load_description",
+   "fieldtype": "Small Text",
+   "label": "Load Description"
+  },
+  {
+   "fieldname": "contact_section",
+   "fieldtype": "Section Break",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "contact_phone",
+   "fieldtype": "Phone",
+   "label": "Contact Phone"
+  },
+  {
+   "fieldname": "exec_section",
+   "fieldtype": "Section Break",
+   "label": "Execution"
+  },
+  {
+   "allow_on_submit": 1,
+   "columns": 1,
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nArrived\nCompleted",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "arrival_datetime",
+   "fieldtype": "Datetime",
+   "label": "Arrival"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "departure_datetime",
+   "fieldtype": "Datetime",
+   "label": "Departure"
+  },
+  {
+   "allow_on_submit": 1,
+   "description": "Departure \u2212 Arrival (computed).",
+   "fieldname": "waiting_hours",
+   "fieldtype": "Float",
+   "label": "Waiting Hours",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-29 22:57:11.133235",
+ "modified_by": "Administrator",
+ "module": "Transport Operations",
+ "name": "Transport Stop",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

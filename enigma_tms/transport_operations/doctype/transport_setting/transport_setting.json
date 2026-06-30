@@ -1,0 +1,184 @@
+{
+ "actions": [],
+ "creation": "2026-06-23 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "defaults_section",
+  "company",
+  "cost_center",
+  "pricing_section",
+  "apply_fuel_on",
+  "default_billing_mode",
+  "column_break_1",
+  "auto_create_invoice_on_completion",
+  "license_expiry_action",
+  "items_section",
+  "default_sales_taxes_template",
+  "freight_item",
+  "extra_stop_item",
+  "column_break_2",
+  "detention_item",
+  "fuel_surcharge_item",
+  "owned_cost_section",
+  "post_owned_costs_to_gl",
+  "owned_cost_expense_account",
+  "owned_cost_credit_account"
+ ],
+ "fields": [
+  {
+   "fieldname": "pricing_section",
+   "fieldtype": "Section Break",
+   "label": "Pricing & Lifecycle"
+  },
+  {
+   "default": "Linehaul",
+   "fieldname": "apply_fuel_on",
+   "fieldtype": "Select",
+   "label": "Apply Fuel Surcharge On",
+   "options": "Linehaul\nSubtotal"
+  },
+  {
+   "default": "Per Order",
+   "fieldname": "default_billing_mode",
+   "fieldtype": "Select",
+   "label": "Default Billing Mode",
+   "options": "Per Order\nPer Trip"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_create_invoice_on_completion",
+   "fieldtype": "Check",
+   "label": "Auto-create Draft Sales Invoice on Order Completion"
+  },
+  {
+   "default": "Block",
+   "fieldname": "license_expiry_action",
+   "fieldtype": "Select",
+   "label": "Driver License Expiry Action",
+   "options": "Block\nWarn"
+  },
+  {
+   "fieldname": "items_section",
+   "fieldtype": "Section Break",
+   "label": "Default Service Items (for invoicing)"
+  },
+  {
+   "fieldname": "default_sales_taxes_template",
+   "fieldtype": "Link",
+   "label": "Default Sales Taxes Template",
+   "options": "Sales Taxes and Charges Template"
+  },
+  {
+   "fieldname": "freight_item",
+   "fieldtype": "Link",
+   "label": "Freight Linehaul Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "extra_stop_item",
+   "fieldtype": "Link",
+   "label": "Extra Stop Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "detention_item",
+   "fieldtype": "Link",
+   "label": "Detention Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "fuel_surcharge_item",
+   "fieldtype": "Link",
+   "label": "Fuel Surcharge Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "owned_cost_section",
+   "fieldtype": "Section Break",
+   "label": "Owned-Trip Costs"
+  },
+  {
+   "default": "1",
+   "description": "When on, owned-trip costs (fuel/driver/tolls) post to the GL via Journal Entry in addition to feeding trip margin.",
+   "fieldname": "post_owned_costs_to_gl",
+   "fieldtype": "Check",
+   "label": "Post Owned-Trip Costs to GL"
+  },
+  {
+   "depends_on": "post_owned_costs_to_gl",
+   "fieldname": "owned_cost_expense_account",
+   "fieldtype": "Link",
+   "label": "Owned-Cost Expense Account (Debit)",
+   "options": "Account"
+  },
+  {
+   "depends_on": "post_owned_costs_to_gl",
+   "fieldname": "owned_cost_credit_account",
+   "fieldtype": "Link",
+   "label": "Owned-Cost Credit Account (Cash/Clearing)",
+   "options": "Account"
+  },
+  {
+   "fieldname": "defaults_section",
+   "fieldtype": "Section Break",
+   "label": "Defaults"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Cost Center",
+   "options": "Cost Center",
+   "reqd": 1
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-06-30 14:39:39.922959",
+ "modified_by": "Administrator",
+ "module": "Transport Operations",
+ "name": "Transport Setting",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Transport Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

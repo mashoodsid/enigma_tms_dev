@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "creation": "2026-06-23 00:00:00",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "stop_seq",
+  "caption",
+  "photo",
+  "uploaded_by",
+  "uploaded_on"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "description": "Drop stop this POD proves. Leave blank on single-drop trips.",
+   "fieldname": "stop_seq",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Stop Seq"
+  },
+  {
+   "columns": 2,
+   "default": "Delivery Note",
+   "fieldname": "caption",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Caption",
+   "options": "Loading Slip\nDispatch Slip\nWeighing Slip\nDelivery Note"
+  },
+  {
+   "columns": 3,
+   "fieldname": "photo",
+   "fieldtype": "Attach Image",
+   "label": "Photo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "uploaded_by",
+   "fieldtype": "Link",
+   "label": "Uploaded By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uploaded_on",
+   "fieldtype": "Datetime",
+   "label": "Uploaded On",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-06-29 13:53:54.252888",
+ "modified_by": "Administrator",
+ "module": "Transport Operations",
+ "name": "Trip POD",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
