@@ -10,10 +10,15 @@ class CustomerRateCard(Document):
 
     def validate_unique_lanes(self):
         seen = set()
+
         for line in self.lines:
-            key = (line.route, line.trailer_type)
+            key = (line.route, line.trailer_type, line.commodity)
             if key in seen:
-                frappe.throw(_("Duplicate lane in rate card: {0} / {1}. Each route + trailer type may appear once.").format(line.route, line.trailer_type))
+                frappe.throw(
+                    _(
+                        "Duplicate lane in rate card: {0} {1} {3} Each commodity + route + trailer  type may appear once."
+                    ).format(line.route, line.trailer_type, line.commodity)
+                )
             seen.add(key)
 
     def validate_dates(self):

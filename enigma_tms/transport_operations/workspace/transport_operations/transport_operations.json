@@ -1,0 +1,310 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"node01\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Enigma TMS \u2014 Operations</span>\",\"col\":12}},{\"id\":\"node02\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Trips\",\"col\":4}},{\"id\":\"node03\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"In Transit\",\"col\":4}},{\"id\":\"node04\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Open Orders\",\"col\":4}},{\"id\":\"node05\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Trips This Month\",\"col\":4}},{\"id\":\"node06\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Trip Profit (This Month)\",\"col\":4}},{\"id\":\"node07\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Tractors Available\",\"col\":4}},{\"id\":\"node08\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Trailers Available\",\"col\":4}},{\"id\":\"node09\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Tractors\",\"col\":4}},{\"id\":\"node10\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Trailers\",\"col\":4}},{\"id\":\"node11\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Routes\",\"col\":4}},{\"id\":\"node12\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Active Rate Cards\",\"col\":4}},{\"id\":\"node13\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"node14\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Operations Dashboard\",\"col\":3}},{\"id\":\"node15\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transport Order\",\"col\":3}},{\"id\":\"node16\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Trip\",\"col\":3}},{\"id\":\"node17\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Tractor\",\"col\":3}},{\"id\":\"node18\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"node25\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"node26\",\"type\":\"card\",\"data\":{\"card_name\":\"Operations\",\"col\":3}},{\"id\":\"node27\",\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":3}},{\"id\":\"node28\",\"type\":\"card\",\"data\":{\"card_name\":\"Pricing\",\"col\":3}},{\"id\":\"node29\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports & Dashboard\",\"col\":3}}]",
+ "creation": "2026-06-24 00:00:00",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "map",
+ "idx": 0,
+ "is_hidden": 1,
+ "label": "Transport Operations",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Operations",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transport Order",
+   "link_count": 0,
+   "link_to": "Transport Order",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trip",
+   "link_count": 0,
+   "link_to": "Trip",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transport Setting",
+   "link_count": 0,
+   "link_to": "Transport Setting",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Setup",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tractor",
+   "link_count": 0,
+   "link_to": "Tractor",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trailer",
+   "link_count": 0,
+   "link_to": "Trailer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Trailer Type",
+   "link_count": 0,
+   "link_to": "Trailer Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transport Location",
+   "link_count": 0,
+   "link_to": "Transport Location",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Transport Route",
+   "link_count": 0,
+   "link_to": "Transport Route",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Pricing",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Customer Rate Card",
+   "link_count": 0,
+   "link_to": "Customer Rate Card",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Subcontractor Rate Card",
+   "link_count": 0,
+   "link_to": "Subcontractor Rate Card",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports & Dashboard",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Trip Profitability",
+   "link_count": 0,
+   "link_to": "Trip Profitability",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Route Profitability",
+   "link_count": 0,
+   "link_to": "Route Profitability",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Fleet Utilization",
+   "link_count": 0,
+   "link_to": "Fleet Utilization",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Un-invoiced Completed Trips",
+   "link_count": 0,
+   "link_to": "Un-invoiced Completed Trips",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Outstanding Subcontractor Costs",
+   "link_count": 0,
+   "link_to": "Outstanding Subcontractor Costs",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Detention Captured vs Billed",
+   "link_count": 0,
+   "link_to": "Detention Captured vs Billed",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-07-23 21:37:23.515963",
+ "modified_by": "Administrator",
+ "module": "Transport Operations",
+ "name": "Transport Operations",
+ "number_cards": [
+  {
+   "label": "Active Trips",
+   "number_card_name": "Active Trips"
+  },
+  {
+   "label": "In Transit",
+   "number_card_name": "In Transit"
+  },
+  {
+   "label": "Open Orders",
+   "number_card_name": "Open Orders"
+  },
+  {
+   "label": "Trips This Month",
+   "number_card_name": "Trips This Month"
+  },
+  {
+   "label": "Trip Profit (This Month)",
+   "number_card_name": "Trip Profit (This Month)"
+  },
+  {
+   "label": "Tractors Available",
+   "number_card_name": "Tractors Available"
+  },
+  {
+   "label": "Trailers Available",
+   "number_card_name": "Trailers Available"
+  },
+  {
+   "label": "Total Tractors",
+   "number_card_name": "Total Tractors"
+  },
+  {
+   "label": "Total Trailers",
+   "number_card_name": "Total Trailers"
+  },
+  {
+   "label": "Routes",
+   "number_card_name": "Routes"
+  },
+  {
+   "label": "Active Rate Cards",
+   "number_card_name": "Active Rate Cards"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Yellow",
+   "label": "Operations Dashboard",
+   "link_to": "Transport Operations",
+   "type": "Dashboard"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Transport Order",
+   "link_to": "Transport Order",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Trip",
+   "link_to": "Trip",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Tractor",
+   "link_to": "Tractor",
+   "type": "DocType"
+  }
+ ],
+ "title": "Transport Operations"
+}

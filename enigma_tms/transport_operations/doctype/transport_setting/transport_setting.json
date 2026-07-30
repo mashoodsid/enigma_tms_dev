@@ -111,12 +111,14 @@
    "description": "When on, owned-trip costs (fuel/driver/tolls) post to the GL via Journal Entry in addition to feeding trip margin.",
    "fieldname": "post_owned_costs_to_gl",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Post Owned-Trip Costs to GL"
   },
   {
    "depends_on": "post_owned_costs_to_gl",
    "fieldname": "owned_cost_expense_account",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Owned-Cost Expense Account (Debit)",
    "options": "Account"
   },
@@ -151,7 +153,7 @@
  ],
  "issingle": 1,
  "links": [],
- "modified": "2026-06-30 14:39:39.922959",
+ "modified": "2026-07-01 12:31:14.362397",
  "modified_by": "Administrator",
  "module": "Transport Operations",
  "name": "Transport Setting",

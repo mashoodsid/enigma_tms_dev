@@ -29,7 +29,7 @@ def recompute_asset_status(asset_doctype, asset_name):
         {
             field: asset_name,
             "docstatus": 1,
-            "status": ["not in", ["Completed", "Cancelled"]],
+            "status": ["in", ["In Transit"]],
             "actual_start": ["<=", now],
         },
     )

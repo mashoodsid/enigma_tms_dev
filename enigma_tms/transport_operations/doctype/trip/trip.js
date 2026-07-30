@@ -22,29 +22,49 @@ frappe.ui.form.on("Trip", {
         }
 
         // Quick visual cue for the POD gate on drop stops.
-        if (frm.doc.docstatus === 1 && ["Delivered", "Completed"].indexOf(frm.doc.status) === -1) {
-            const drops = (frm.doc.stops || []).filter((s) => s.stop_type === "Drop");
-            const pod_seqs = (frm.doc.pods || []).map((p) => p.stop_seq);
-            const missing = drops.filter((s) => pod_seqs.indexOf(s.seq) === -1);
-            if (missing.length) {
-                frm.dashboard.set_headline(
-                    __("{0} drop stop(s) still need a POD photo before this trip can be Delivered/Completed.", [missing.length])
-                );
-            }
+        if (frm.doc.docstatus != 1) {
+            frm.dashboard.set_headline(`The assigned tractor status is currently "On Trip". This trip can only be started when tractor status becomes "Available".`)
         }
+
+
+        // if (frm.doc.docstatus === 1 && ["Delivered", "Completed"].indexOf(frm.doc.status) === -1) {
+        //     const drops = (frm.doc.stops || []).filter((s) => s.stop_type === "Drop");
+        //     const pod_seqs = (frm.doc.pods || []).map((p) => p.stop_seq);
+        //     const missing = drops.filter((s) => pod_seqs.indexOf(s.seq) === -1);
+        //     if (missing.length) {
+        //         frm.dashboard.set_headline(
+        //             __("{0} drop stop(s) still need a POD photo before this trip can be Delivered/Completed.", [missing.length])
+        //         );
+        //     }
+        // }
     },
+
+    tractor(frm) {
+        const { tractor, change_driver_trailer } = frm.doc;
+        console.log(tractor, change_driver_trailer)
+        console.log(tractor && !change_driver_trailer)
+        if (tractor && !change_driver_trailer) {
+            frappe.db.get_value("Tractor", tractor, ['default_driver', "default_trailer"]).then(res => {
+                console.log(res)
+                const { message: { default_driver, default_trailer } } = res;
+                // if (default_driver && default_trailer) {
+                frm.set_value("trailer", default_trailer || "")
+                frm.set_value("driver", default_driver || "")
+                // }
+            })
+        }
+    }
 });
 
 function show_start_trip_dialog(frm) {
-    // Friendly client-side pre-check; the server (start_trip) is the real gate.
     const has_dispatch_slip = (frm.doc.pods || []).some(
         (p) => (p.caption || "").trim() === "Dispatch Slip"
     );
-    if (!has_dispatch_slip) {
+    if (!frm.doc.pods?.length) {
         frappe.msgprint({
-            title: __("Dispatch Slip Required"),
+            title: __("POD Required"),
             indicator: "red",
-            message: __('Attach a POD captioned "Dispatch Slip" before starting this trip.'),
+            message: __('Attach a POD before starting this trip.'),
         });
         return;
     }

@@ -6,7 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "commodity_name"
+  "commodity_name",
+  "sales_item"
  ],
  "fields": [
   {
@@ -16,11 +17,17 @@
    "label": "Commodity Name",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "sales_item",
+   "fieldtype": "Link",
+   "label": "Sales Item",
+   "options": "Item"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-06-28 15:08:07.769769",
+ "modified": "2026-06-30 20:38:43.618465",
  "modified_by": "Administrator",
  "module": "Transport Setup",
  "name": "Commodity",

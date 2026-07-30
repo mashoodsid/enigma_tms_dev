@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "transport_order",
+  "company",
   "customer",
   "order_line",
   "trailer_type",
@@ -15,10 +16,12 @@
   "status",
   "section_assign",
   "tractor",
+  "change_driver_trailer",
   "trailer",
   "driver",
   "column_break_2",
   "ownership",
+  "tractor_status",
   "subcontractor",
   "section_schedule",
   "planned_start",
@@ -109,19 +112,25 @@
    "fieldname": "tractor",
    "fieldtype": "Link",
    "label": "Tractor",
-   "options": "Tractor"
+   "link_filters": "[[\"Tractor\",\"status\",\"in\",[\"Available\",\"On Trip\",null]]]",
+   "options": "Tractor",
+   "reqd": 1
   },
   {
    "fieldname": "trailer",
    "fieldtype": "Link",
    "label": "Trailer",
-   "options": "Trailer"
+   "options": "Trailer",
+   "read_only_depends_on": "eval: !doc.change_driver_trailer;",
+   "reqd": 1
   },
   {
    "fieldname": "driver",
    "fieldtype": "Link",
    "label": "Driver",
-   "options": "Driver"
+   "options": "Driver",
+   "read_only_depends_on": "eval: !doc.change_driver_trailer;",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_2",
@@ -154,6 +163,7 @@
   },
   {
    "allow_on_submit": 1,
+   "depends_on": "eval: doc.docstatus != 0;",
    "fieldname": "actual_start",
    "fieldtype": "Datetime",
    "label": "Actual Start"
@@ -169,12 +179,14 @@
   },
   {
    "allow_on_submit": 1,
+   "depends_on": "eval: doc.docstatus != 0;",
    "fieldname": "actual_end",
    "fieldtype": "Datetime",
    "label": "Actual End"
   },
   {
    "collapsible": 1,
+   "depends_on": "eval: doc.docstatus != 0;",
    "fieldname": "section_odo",
    "fieldtype": "Section Break",
    "label": "Odometer (Tractor)"
@@ -199,6 +211,7 @@
    "read_only": 1
   },
   {
+   "depends_on": "eval: doc.docstatus != 0;",
    "fieldname": "section_stops",
    "fieldtype": "Section Break",
    "label": "Stops"
@@ -211,6 +224,7 @@
    "options": "Transport Stop"
   },
   {
+   "depends_on": "eval: doc.docstatus != 0;",
    "fieldname": "section_pod",
    "fieldtype": "Section Break",
    "label": "Proof of Dispatch/Delivery (per drop, multi-photo)"
@@ -224,6 +238,7 @@
   },
   {
    "collapsible": 1,
+   "depends_on": "eval: doc.docstatus != 0;",
    "fieldname": "section_activity",
    "fieldtype": "Section Break",
    "label": "Activity Log"
@@ -236,6 +251,7 @@
    "options": "Trip Activity"
   },
   {
+   "depends_on": "eval: doc.docstatus != 0;",
    "fieldname": "section_costs",
    "fieldtype": "Section Break",
    "label": "Costs"
@@ -248,6 +264,7 @@
    "options": "Trip Cost"
   },
   {
+   "depends_on": "eval: doc.docstatus != 0;",
    "fieldname": "section_fin",
    "fieldtype": "Section Break",
    "label": "Financials"
@@ -288,11 +305,38 @@
    "options": "Trip",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "tractor_status",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Tractor Status",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "change_driver_trailer",
+   "fieldtype": "Check",
+   "label": "Change Driver & Trailer"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "links": [],
- "modified": "2026-06-30 00:38:57.618221",
+ "links": [
+  {
+   "link_doctype": "Purchase Invoice",
+   "link_fieldname": "custom_trip"
+  }
+ ],
+ "modified": "2026-07-23 22:33:45.171098",
  "modified_by": "Administrator",
  "module": "Transport Operations",
  "name": "Trip",

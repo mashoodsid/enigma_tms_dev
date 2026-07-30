@@ -5,6 +5,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "company",
   "customer",
   "customer_po_no",
   "status",
@@ -50,7 +51,7 @@
    "in_list_view": 1,
    "label": "Status",
    "no_copy": 1,
-   "options": "Draft\nConfirmed\nIn Progress\nCompleted\nClosed\nCancelled",
+   "options": "Draft\nConfirmed\nIn Progress\nCompleted\nClosed\nCancelled\nCompleted - Invoiced",
    "print_hide": 1,
    "read_only": 1
   },
@@ -78,6 +79,7 @@
    "options": "Currency"
   },
   {
+   "default": "Per Order",
    "fieldname": "billing_mode",
    "fieldtype": "Select",
    "label": "Billing Mode",
@@ -160,6 +162,13 @@
    "fieldtype": "Float",
    "label": "Total Weight (Ton)",
    "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
@@ -167,9 +176,22 @@
   {
    "link_doctype": "Trip",
    "link_fieldname": "transport_order"
+  },
+  {
+   "link_doctype": "Sales Invoice",
+   "link_fieldname": "transport_order",
+   "table_fieldname": "custom_transport_orders"
+  },
+  {
+   "link_doctype": "Journal Entry",
+   "link_fieldname": "custom_transport_order"
+  },
+  {
+   "link_doctype": "Purchase Invoice",
+   "link_fieldname": "custom_transport_order"
   }
  ],
- "modified": "2026-06-29 23:09:23.757434",
+ "modified": "2026-07-29 17:26:15.065571",
  "modified_by": "Administrator",
  "module": "Transport Operations",
  "name": "Transport Order",

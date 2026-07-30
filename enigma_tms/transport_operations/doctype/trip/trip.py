@@ -22,6 +22,10 @@ DROP_DONE_STATUSES = ("Delivered", "Completed")
 
 
 class Trip(Document):
+    @property
+    def tractor_status(self):
+        return frappe.db.get_value("Tractor", self.tractor, "status") or ""
+
     def update_transport_order_status(self):
         if not self.transport_order:
             return
@@ -78,18 +82,6 @@ class Trip(Document):
 
     # ---------------------------------------------------------------- validate
     def validate(self):
-
-        if self.tractor:
-            default_driver, default_trailer = frappe.db.get_value(
-                "Tractor", self.tractor, ["default_driver", "default_trailer"]
-            )
-
-            if not self.trailer:
-                self.trailer = default_trailer
-
-            if not self.driver:
-                self.driver = default_driver
-
         if self.planned_start and not self.planned_end:
             from datetime import timedelta, datetime
 
@@ -351,8 +343,9 @@ class Trip(Document):
         for asset_dt, name in (("Tractor", self.tractor), ("Trailer", self.trailer)):
             recompute_asset_status(asset_dt, name)
         self.propagate_order_status()
-        if self.status == "Completed" and self.ownership == "Owned":
-            self.maybe_post_owned_costs_to_gl()
+        # Journal Entry creation moved to Transport Order level.
+        # if self.status == "Completed" and self.ownership == "Owned":
+        #     self.maybe_post_owned_costs_to_gl()
 
     def propagate_order_status(self):
         if self.transport_order:
@@ -429,33 +422,41 @@ def create_purchase_invoice(trip_name):
         frappe.throw(
             _("Purchase Invoice applies to outsourced trips with a subcontractor only.")
         )
-    sub_cost = flt(
-        sum(flt(c.amount) for c in trip.costs if c.cost_type == "Subcontractor")
-    )
-    if sub_cost <= 0:
-        frappe.throw(_("No subcontractor cost recorded on this trip."))
-    settings = frappe.get_cached_doc("Transport Setting")
-    item = settings.freight_item
-    if not item:
-        frappe.throw(
-            _("Set a default Freight Linehaul Item in Transport Setting first.")
-        )
+
+    # sub_cost = 0
+    # for c in trip.costs:
+    #     sub_cost += flt(c.amount)
+
+    # if sub_cost <= 0:
+    #     frappe.throw(_("No subcontractor cost recorded on this trip."))
+
+    # settings = frappe.get_cached_doc("Transport Setting")
+    # item = settings.freight_item
+    # if not item:
+    #     frappe.throw(
+    #         _("Set a default Freight Linehaul Item in Transport Setting first.")
+    #     )
     pi = frappe.new_doc("Purchase Invoice")
     pi.supplier = trip.subcontractor
-    pi.company = frappe.defaults.get_global_default("company") or frappe.db.get_value(
-        "Company", {}, "name"
-    )
+    pi.company = trip.company
+
     if hasattr(pi, "custom_trip"):
         pi.custom_trip = trip.name
-    pi.append(
-        "items",
-        {
-            "item_code": item,
-            "qty": 1,
-            "rate": sub_cost,
-            "description": _("Transport subcontracting — Trip {0}").format(trip.name),
-        },
-    )
+
+    for row in trip.costs:
+        pi.append(
+            "items",
+            {
+                "item_code": frappe.db.get_value(
+                    "TMS Cost", row.tms_cost, "purchase_item"
+                ),
+                "qty": 1,
+                "rate": row.amount,
+                "description": _("Transport subcontracting — Trip {0}").format(
+                    trip.name
+                ),
+            },
+        )
     pi.insert(ignore_permissions=True)
     return pi.name
 
@@ -465,18 +466,31 @@ def start_trip(trip, actual_start):
     """Start a Trip (In Transit) only if a POD captioned 'Dispatch Slip' is
     attached. `actual_start` comes from the Start Trip dialog's DateTime
     field on the client."""
-    trip = frappe.get_doc("Trip", trip)
 
+    trip = frappe.get_doc("Trip", trip)
     if trip.status == "Cancelled":
         frappe.throw(_("Cannot start a Cancelled Trip."))
 
-    has_dispatch_slip = any(
-        (p.caption or "").strip() == "Dispatch Slip" for p in trip.pods
-    )
-    if not has_dispatch_slip:
-        frappe.throw(
-            _("Attach a POD captioned \"Dispatch Slip\" before starting this Trip.")
+    tractor_status = frappe.db.get_value("Tractor", trip.tractor, "status")
+    if tractor_status != "Available":
+        in_transit_trip = frappe.db.get_value(
+            "Trip", {"status": "In Transit", "tractor": trip.tractor}, "name"
         )
+        frappe.throw(
+            f"Tractor {trip.tractor} is not available. Please complete the in-transit trip ({in_transit_trip}) before starting a new trip."
+        )
+
+    trailer_status = frappe.db.get_value("Trailer", trip.trailer, "status")
+    if trailer_status != "Available":
+        in_transit_trip = frappe.db.get_value(
+            "Trip", {"status": "In Transit", "trailer": trip.trailer}, "name"
+        )
+        frappe.throw(
+            f"Trailer {trip.trailer} is not available. Please complete the in-transit trip ({in_transit_trip}) before starting a new trip."
+        )
+
+    if not trip.pods:
+        frappe.throw(_("Attach a POD before starting this Trip."))
 
     trip.actual_start = get_datetime(actual_start)
     trip.status = "In Transit"

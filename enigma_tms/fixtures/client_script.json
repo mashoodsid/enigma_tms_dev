@@ -1,0 +1,24 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Transport Order",
+  "enabled": 1,
+  "modified": "2026-07-30 10:50:34.072770",
+  "module": "Transport Operations",
+  "name": "Transport Order",
+  "script": "frappe.listview_settings[\"Transport Order\"] = {\n    onload(listview) {\n        listview.page.add_inner_button(__('Generate Invoice'), function () {\n            const orders = listview.get_checked_items()\n            const names = orders.map(i => i.name)\n\n            frappe.call({\n                method: \"enigma_tms.transport_operations.doctype.transport_order.transport_order.create_bulk_order_invoice\",\n                freeze: true,\n                args: {\n                    orders: names,\n                },\n                callback(response) {\n                    frappe.msgprint(response.message)\n                }\n            })\n\n        });\n\n    },\n    add_fields: [\"status\"],\n    has_indicator_for_draft: true,\n    has_indicator_for_cancelled: true,\n\n    get_indicator(doc) {\n        const colors = {\n            \"Draft\": \"gray\",\n            \"Confirmed\": \"blue\",\n            \"In Progress\": \"orange\",\n            \"Completed\": \"green\",\n            \"Closed\": \"darkgrey\",\n            \"Cancelled\": \"red\"\n        };\n\n        return [\n            __(doc.status),\n            colors[doc.status] || \"gray\",\n            `status,=,${doc.status}`\n        ];\n    }\n};",
+  "view": "List"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Trip",
+  "enabled": 1,
+  "modified": "2026-07-30 10:50:34.135093",
+  "module": "Transport Operations",
+  "name": "Trip",
+  "script": "frappe.listview_settings[\"Trip\"] = {\n    add_fields: [\"status\"],\n    has_indicator_for_draft: true,\n    has_indicator_for_cancelled: true,\n\n    get_indicator(doc) {\n        const colors = {\n            \"Draft\": \"gray\",\n            \"Assigned\": \"blue\",\n            \"Completed\": \"green\",\n            \"Cancelled\": \"red\"\n        };\n\n        return [\n            __(doc.status),\n            colors[doc.status] || \"gray\",\n            `status,=,${doc.status}`\n        ];\n    }\n};",
+  "view": "List"
+ }
+]

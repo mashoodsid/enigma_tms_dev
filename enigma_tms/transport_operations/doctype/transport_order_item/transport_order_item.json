@@ -139,14 +139,14 @@
   {
    "columns": 1,
    "fieldname": "qty",
-   "fieldtype": "Int",
+   "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Qty (Ton)"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2026-06-29 22:52:37.490141",
+ "modified": "2026-07-01 12:35:45.949258",
  "modified_by": "Administrator",
  "module": "Transport Operations",
  "name": "Transport Order Item",

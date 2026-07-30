@@ -1,40 +1,81 @@
 frappe.ui.form.on("Transport Order", {
-    setup(frm) {
+    onload(frm) {
         if (frm.is_new()) {
-            frm.set_value("items", [])
             frm.set_value("stops", [])
+            setTimeout(() => {
+                frm.set_value("stops", [])
+            }, 1000)
         }
     },
     refresh(frm) {
         if (frm.doc.docstatus === 1 && frm.doc.status !== "Cancelled") {
-            frm.add_custom_button(__("Create Trip(s)"), () => {
-                frappe.call({
-                    method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.create_trips",
-                    args: { order_name: frm.doc.name },
-                    freeze: true,
-                    freeze_message: __("Generating trips..."),
-                    callback: (r) => {
-                        if (r.message) {
-                            frappe.msgprint(__("Created {0} trip(s).", [(r.message.created || []).length]));
-                            frm.reload_doc();
-                        }
-                    },
-                });
-            }, __("Create"));
+            frappe.db.get_value("Trip", { "transport_order": frm.doc.name, "docstatus": ["!=", 2] }, "name").then(res => {
+                if (!res.message?.name) {
+                    frm.add_custom_button(__("Create Trip(s)"), () => {
+                        frappe.call({
+                            method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.create_trips",
+                            args: { order_name: frm.doc.name },
+                            freeze: true,
+                            freeze_message: __("Generating trips..."),
+                            callback: (r) => {
+                                if (r.message) {
+                                    frappe.msgprint(__("Created {0} trip(s).", [(r.message.created || []).length]));
+                                    frm.reload_doc();
+                                }
+                            },
+                        });
+                    }, __("Create"));
+                }
+            })
 
-            frm.add_custom_button(__("Sales Invoice"), () => {
+            frappe.db.get_value("Sales Invoice", {
+                "custom_transport_order": frm.doc.name,
+                "docstatus": ["!=", 2]
+            }, "name").then(res => {
+                if (!res.message?.name) {
+                    frm.add_custom_button(__("Sales Invoice"), () => {
+                        frappe.call({
+                            method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.create_sales_invoice",
+                            args: { order_name: frm.doc.name },
+                            freeze: true,
+                            callback: (r) => {
+                                if (r.message) {
+                                    frappe.msgprint(__("Created: {0}", [(r.message || []).join(", ")]));
+                                    frm.reload_doc();
+                                }
+                            },
+                        });
+                    }, __("Create"));
+                }
+            })
+
+
+            frm.add_custom_button(__("Purchase Invoice / JV"), () => {
                 frappe.call({
-                    method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.create_sales_invoice",
+                    method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.create_purchase_invoices",
                     args: { order_name: frm.doc.name },
                     freeze: true,
                     callback: (r) => {
                         if (r.message) {
-                            frappe.msgprint(__("Created: {0}", [(r.message.sales_invoices || []).join(", ")]));
+                            frappe.msgprint(__("Created: {0}", [(r.message || []).join(", ")]));
                             frm.reload_doc();
                         }
                     },
                 });
             }, __("Create"));
+            frm.add_custom_button(__("Remove Journal Entries"), () => {
+                frappe.call({
+                    method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.delete_draft_journal_entries",
+                    args: { order: frm.doc.name },
+                    freeze: true,
+                    callback: (r) => {
+                        frm.reload_doc();
+                    },
+                });
+            }, __("Actions"));
+
+
+
         }
     },
 });
@@ -54,7 +95,7 @@ function clear_current_row_stop(frm, row) {
     selectedRows.forEach(r => {
         frappe.model.clear_doc(r.doctype, r.name)
     })
-    
+
     frm.refresh_field("stops")
 }
 
@@ -95,13 +136,70 @@ frappe.ui.form.on("Transport Order Item", {
         const row = locals[cdt][cdn];
         remove_stops_for_lane(frm, row.idx);
     },
+    trailer_type(frm, cdt, cdn) {
+        frappe.model.set_value(cdt, cdn, "base_rate", 0);
+        const row = locals[cdt][cdn]
+        const { route, trailer_type, commodity } = row;
+        const { customer } = frm.doc;
+
+        if (!route || !customer || !trailer_type || !commodity) {
+            return
+        }
+
+        frappe.call({
+            method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.get_customer_route_price",
+            args: {
+                customer: customer,
+                route: route,
+                trailer_type: trailer_type,
+                commodity: commodity,
+            },
+            freeze: true,
+            freeze_message: __("Getting price..."),
+            callback: (r) => {
+                if (flt(r.message)) {
+                    frappe.model.set_value(cdt, cdn, "base_rate", flt(r.message));
+                }
+            },
+        });
+    },
+    commodity(frm, cdt, cdn) {
+        frappe.model.set_value(cdt, cdn, "base_rate", 0);
+        const row = locals[cdt][cdn]
+        const { route, trailer_type, commodity } = row;
+        const { customer } = frm.doc;
+
+        if (!route || !customer || !trailer_type || !commodity) {
+            return
+        }
+
+        frappe.call({
+            method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.get_customer_route_price",
+            args: {
+                customer: customer,
+                route: route,
+                trailer_type: trailer_type,
+                commodity: commodity,
+            },
+            freeze: true,
+            freeze_message: __("Getting price..."),
+            callback: (r) => {
+                if (flt(r.message)) {
+                    frappe.model.set_value(cdt, cdn, "base_rate", flt(r.message));
+                }
+            },
+        });
+    },
     route(frm, cdt, cdn) {
+        frappe.model.set_value(cdt, cdn, "base_rate", 0);
+
         const row = locals[cdt][cdn]
         clear_current_row_stop(frm, row)
         handle_default_stops(frm, row)
         const { route, trailer_type, commodity } = row;
         const { customer } = frm.doc;
-        if (!route || !customer || !trailer_type) {
+
+        if (!route || !customer || !trailer_type || !commodity) {
             return
         }
 

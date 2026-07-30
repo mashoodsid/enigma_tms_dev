@@ -1,22 +1,43 @@
 {
  "actions": [],
- "creation": "2026-06-23 00:00:00.000000",
+ "creation": "2026-06-23 00:00:00",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
- "istable": 1,
  "field_order": [
-  "cost_type",
+  "tms_cost",
   "description",
   "amount"
  ],
  "fields": [
-  {"fieldname": "cost_type", "fieldtype": "Select", "label": "Cost Type", "options": "Fuel\nDriver Pay\nTolls\nSubcontractor\nOther", "reqd": 1, "in_list_view": 1, "columns": 3},
-  {"fieldname": "description", "fieldtype": "Data", "label": "Description", "in_list_view": 1, "columns": 5},
-  {"fieldname": "amount", "fieldtype": "Currency", "label": "Amount", "reqd": 1, "in_list_view": 1, "columns": 2}
+  {
+   "columns": 5,
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Description"
+  },
+  {
+   "columns": 2,
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "reqd": 1
+  },
+  {
+   "columns": 3,
+   "fieldname": "tms_cost",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "TMS Cost",
+   "options": "TMS Cost",
+   "reqd": 1
+  }
  ],
+ "istable": 1,
  "links": [],
- "modified": "2026-06-23 00:00:00.000000",
+ "modified": "2026-07-01 12:05:46.000205",
  "modified_by": "Administrator",
  "module": "Transport Operations",
  "name": "Trip Cost",

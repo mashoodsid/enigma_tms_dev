@@ -20,8 +20,16 @@ after_migrate = "enigma_tms.install.after_migrate"
 # ------------------------------------------------------------------
 doc_events = {
     "Sales Invoice": {
-        "on_submit": "enigma_tms.transport_operations.doctype.transport_order.transport_order.on_sales_invoice_submit",
-        "on_cancel": "enigma_tms.transport_operations.doctype.transport_order.transport_order.on_sales_invoice_cancel",
+        "validate": "enigma_tms.transport_operations.doctype.transport_order.transport_order.handle_trip_closure",
+        "after_delete": "enigma_tms.transport_operations.doctype.transport_order.transport_order.handle_trip_closure",
+    },
+    "Purchase Invoice": {
+        "validate": "enigma_tms.transport_operations.doctype.transport_order.transport_order.handle_trip_closure",
+        "after_delete": "enigma_tms.transport_operations.doctype.transport_order.transport_order.handle_trip_closure",
+    },
+    "Journal Entry": {
+        "validate": "enigma_tms.transport_operations.doctype.transport_order.transport_order.handle_trip_closure",
+        "after_delete": "enigma_tms.transport_operations.doctype.transport_order.transport_order.handle_trip_closure",
     },
 }
 
@@ -29,3 +37,27 @@ doc_events = {
 # Scheduled tasks (placeholder — derived asset status refresh, etc.)
 # ------------------------------------------------------------------
 # scheduler_events = {}
+
+
+fixtures = [
+    {
+        "dt": "Custom Field",
+        "filters": [
+            [
+                "module",
+                "in",
+                ["Transport Operations", "Transport Pricing", "Transport Setup"],
+            ]
+        ],
+    },
+    {
+        "dt": "Client Script",
+        "filters": [
+            [
+                "module",
+                "in",
+                ["Transport Operations", "Transport Pricing", "Transport Setup"],
+            ]
+        ],
+    },
+]
