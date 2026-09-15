@@ -19,11 +19,12 @@
   },
   {
    "columns": 2,
+   "default": "0",
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Amount",
-   "reqd": 1
+   "non_negative": 1
   },
   {
    "columns": 3,
@@ -31,13 +32,12 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "TMS Cost",
-   "options": "TMS Cost",
-   "reqd": 1
+   "options": "TMS Cost"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2026-07-01 12:05:46.000205",
+ "modified": "2026-08-11 18:39:07.551864",
  "modified_by": "Administrator",
  "module": "Transport Operations",
  "name": "Trip Cost",

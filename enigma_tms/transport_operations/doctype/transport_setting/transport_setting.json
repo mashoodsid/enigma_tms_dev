@@ -23,7 +23,9 @@
   "owned_cost_section",
   "post_owned_costs_to_gl",
   "owned_cost_expense_account",
-  "owned_cost_credit_account"
+  "owned_cost_credit_account",
+  "trip_settings_section",
+  "allow_trip_completion_without_proofs"
  ],
  "fields": [
   {
@@ -149,11 +151,22 @@
    "label": "Cost Center",
    "options": "Cost Center",
    "reqd": 1
+  },
+  {
+   "fieldname": "trip_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Trip Settings"
+  },
+  {
+   "default": "0",
+   "fieldname": "allow_trip_completion_without_proofs",
+   "fieldtype": "Check",
+   "label": "Allow Trip Completion without Proofs"
   }
  ],
  "issingle": 1,
  "links": [],
- "modified": "2026-07-01 12:31:14.362397",
+ "modified": "2026-08-11 19:06:47.923896",
  "modified_by": "Administrator",
  "module": "Transport Operations",
  "name": "Transport Setting",

@@ -14,6 +14,10 @@
   "required_by",
   "currency",
   "billing_mode",
+  "section_break_xxvv",
+  "tractor",
+  "column_break_bqfj",
+  "driver",
   "items_section",
   "items",
   "stops_section",
@@ -169,6 +173,26 @@
    "label": "Company",
    "options": "Company",
    "reqd": 1
+  },
+  {
+   "fieldname": "section_break_xxvv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "tractor",
+   "fieldtype": "Link",
+   "label": "Tractor",
+   "options": "Tractor"
+  },
+  {
+   "fieldname": "column_break_bqfj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "label": "Driver",
+   "options": "Driver"
   }
  ],
  "is_submittable": 1,
@@ -178,20 +202,19 @@
    "link_fieldname": "transport_order"
   },
   {
-   "link_doctype": "Sales Invoice",
-   "link_fieldname": "transport_order",
-   "table_fieldname": "custom_transport_orders"
-  },
-  {
    "link_doctype": "Journal Entry",
    "link_fieldname": "custom_transport_order"
   },
   {
    "link_doctype": "Purchase Invoice",
    "link_fieldname": "custom_transport_order"
+  },
+  {
+   "link_doctype": "Sales Invoice",
+   "link_fieldname": "custom_transport_order"
   }
  ],
- "modified": "2026-07-29 17:26:15.065571",
+ "modified": "2026-08-25 16:03:01.624983",
  "modified_by": "Administrator",
  "module": "Transport Operations",
  "name": "Transport Order",

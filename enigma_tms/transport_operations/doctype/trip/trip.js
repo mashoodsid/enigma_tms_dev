@@ -1,5 +1,20 @@
 frappe.ui.form.on("Trip", {
     refresh(frm) {
+        if (frm.doc.status == "In Transit") {
+            frappe.db.get_doc("Transport Setting", "Transport Setting").then(settings => {
+                if (settings.allow_trip_completion_without_proofs) {
+                    frm.add_custom_button("Complete Trip", function () {
+                        frm.doc.stops.forEach(row => {
+                            frappe.model.set_value(row.doctype, row.name, "status", "Completed")
+                        })
+                        frm.set_value("status", "Completed")
+                        frm.save("Submit")
+                    })
+                }
+
+                console.log(settings.allow_trip_completion_without_proofs)
+            })
+        }
         if (frm.doc.docstatus === 1 && frm.doc.ownership === "Outsourced" && frm.doc.status !== "Cancelled") {
             frm.add_custom_button(__("Purchase Invoice"), () => {
                 frappe.call({
@@ -60,46 +75,61 @@ function show_start_trip_dialog(frm) {
     const has_dispatch_slip = (frm.doc.pods || []).some(
         (p) => (p.caption || "").trim() === "Dispatch Slip"
     );
-    if (!frm.doc.pods?.length) {
-        frappe.msgprint({
-            title: __("POD Required"),
-            indicator: "red",
-            message: __('Attach a POD before starting this trip.'),
-        });
-        return;
-    }
 
-    const dialog = new frappe.ui.Dialog({
-        title: __("Start Trip"),
-        fields: [
-            {
-                fieldname: "actual_start",
-                fieldtype: "Datetime",
-                label: __("Actual Start"),
-                reqd: 1,
-                default: frappe.datetime.now_datetime(),
+
+    frappe.dom.freeze()
+    frappe.db.get_doc("Transport Setting", "Transport Setting").then(settings => {
+        frappe.dom.unfreeze()
+
+        if (!settings.allow_trip_completion_without_proofs) {
+            if (!frm.doc.pods?.length) {
+                frappe.msgprint({
+                    title: __("POD Required"),
+                    indicator: "red",
+                    message: __('Attach a POD before starting this trip.'),
+                });
+                return;
+            }
+        }
+
+
+        const dialog = new frappe.ui.Dialog({
+            title: __("Start Trip"),
+            fields: [
+                {
+                    fieldname: "actual_start",
+                    fieldtype: "Datetime",
+                    label: __("Actual Start"),
+                    reqd: 1,
+                    default: frappe.datetime.now_datetime(),
+                },
+            ],
+            primary_action_label: __("Start Trip"),
+            primary_action: (values) => {
+                frappe.call({
+                    method: "enigma_tms.transport_operations.doctype.trip.trip.start_trip",
+                    args: {
+                        trip: frm.doc.name,
+                        actual_start: values.actual_start,
+                    },
+                    freeze: true,
+                    freeze_message: __("Starting trip..."),
+                    callback: (r) => {
+                        if (r.message) {
+                            dialog.hide();
+                            frappe.msgprint(__("Trip started."));
+                            frm.reload_doc();
+                        }
+                    },
+                });
             },
-        ],
-        primary_action_label: __("Start Trip"),
-        primary_action: (values) => {
-            frappe.call({
-                method: "enigma_tms.transport_operations.doctype.trip.trip.start_trip",
-                args: {
-                    trip: frm.doc.name,
-                    actual_start: values.actual_start,
-                },
-                freeze: true,
-                freeze_message: __("Starting trip..."),
-                callback: (r) => {
-                    if (r.message) {
-                        dialog.hide();
-                        frappe.msgprint(__("Trip started."));
-                        frm.reload_doc();
-                    }
-                },
-            });
-        },
-    });
+        });
+        dialog.show();
 
-    dialog.show();
+    }).catch(err => {
+        console.log(err)
+        frappe.dom.unfreeze()
+    })
+
+
 }

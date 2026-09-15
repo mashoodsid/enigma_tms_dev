@@ -7,6 +7,15 @@ frappe.ui.form.on("Transport Order", {
             }, 1000)
         }
     },
+    tractor(frm){
+        const {tractor} = frm.doc;
+        if(tractor){
+            frappe.db.get_value("Tractor", tractor, "default_driver").then(res => {
+                const {message: {default_driver}} = res;
+                frm.set_value("driver", default_driver)
+            })
+        }
+    },
     refresh(frm) {
         if (frm.doc.docstatus === 1 && frm.doc.status !== "Cancelled") {
             frappe.db.get_value("Trip", { "transport_order": frm.doc.name, "docstatus": ["!=", 2] }, "name").then(res => {
@@ -28,27 +37,28 @@ frappe.ui.form.on("Transport Order", {
                 }
             })
 
-            frappe.db.get_value("Sales Invoice", {
-                "custom_transport_order": frm.doc.name,
-                "docstatus": ["!=", 2]
-            }, "name").then(res => {
-                if (!res.message?.name) {
-                    frm.add_custom_button(__("Sales Invoice"), () => {
-                        frappe.call({
-                            method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.create_sales_invoice",
-                            args: { order_name: frm.doc.name },
-                            freeze: true,
-                            callback: (r) => {
-                                if (r.message) {
-                                    frappe.msgprint(__("Created: {0}", [(r.message || []).join(", ")]));
-                                    frm.reload_doc();
-                                }
-                            },
-                        });
-                    }, __("Create"));
-                }
-            })
-
+            if (frappe.user.has_role("TMS Finance Manager")) {
+                frappe.db.get_value("Sales Invoice", {
+                    "custom_transport_order": frm.doc.name,
+                    "docstatus": ["!=", 2]
+                }, "name").then(res => {
+                    if (!res.message?.name) {
+                        frm.add_custom_button(__("Sales Invoice"), () => {
+                            frappe.call({
+                                method: "enigma_tms.transport_operations.doctype.transport_order.transport_order.create_sales_invoice",
+                                args: { order_name: frm.doc.name },
+                                freeze: true,
+                                callback: (r) => {
+                                    if (r.message) {
+                                        frappe.msgprint(__("Created: {0}", [(r.message || []).join(", ")]));
+                                        frm.reload_doc();
+                                    }
+                                },
+                            });
+                        }, __("Create"));
+                    }
+                })
+            }    
 
             frm.add_custom_button(__("Purchase Invoice / JV"), () => {
                 frappe.call({

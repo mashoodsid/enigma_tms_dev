@@ -229,9 +229,12 @@ def create_trips(order_name):
         per_trip_selling = flt(item.line_total) / total_trips if total_trips else 0
         for _n in range(total_trips):
             trip = frappe.new_doc("Trip")
+            trip.company = order.company
             trip.transport_order = order.name
             trip.customer = order.customer
-            trip.order_line = lane_no
+            trip.order_line = lane_no            
+            trip.tractor = order.tractor
+            trip.driver = order.driver
             trip.trailer_type = item.trailer_type
             trip.route = item.route
             trip.selling_amount = flt(per_trip_selling, 2)
@@ -297,6 +300,7 @@ def create_sales_invoice(order_name):
 
 
 def _make_si(order, settings, trips):
+    customer_qty_type = frappe.db.get_value("Customer", order.customer, "custom_sales_invoice_items_quantity_based_on") or "Transport Order"
 
     si = frappe.new_doc("Sales Invoice")
     si.customer = order.customer
@@ -327,10 +331,30 @@ def _make_si(order, settings, trips):
         for i in range(0, cint(row.qty_trailers)):
             desc += f"""{route_name} {trailer_doc.plate_number} ({flt(trailer_doc.capacity_tons)} TON) \n """
 
+        item_trip = None
+        trip_id = frappe.db.get_value("Trip", {"order_line": row.idx, "transport_order": order.name, "docstatus" : ["!=", 2]}, "name")
+        if trip_id:
+            item_trip = frappe.get_doc("Trip", trip_id)
+            
+        qty = flt(row.qty)
+        if customer_qty_type == "Pick-up":
+            qty = 0
+            for j in item_trip.stops:
+                if j.stop_type == "Pickup":
+                    qty = flt(j.weight_tons)
+                    break
+
+        elif customer_qty_type == "Drop-off":
+            qty = 0
+            for j in item_trip.stops:
+                if j.stop_type == "Drop":
+                    qty = flt(j.weight_tons)
+                    break
+                    
         invoice_item = {
             "cost_center": settings.cost_center,
             "item_code": item,
-            "qty": flt(row.qty),
+            "qty": qty,
             "rate": flt(row.base_rate),
             "description": desc,
         }
@@ -439,8 +463,8 @@ def create_purchase_invoices(order_name):
 
     order = frappe.get_doc("Transport Order", order_name)
     settings = frappe.get_cached_doc("Transport Setting")
-    company = settings.company or _default_company()
-
+    company = order.company
+    customer_doc = frappe.get_doc("Custoemr", order.customer)
     trips = frappe.get_all(
         "Trip", filters={"transport_order": order_name, "docstatus": 1}, fields=["name"]
     )
@@ -448,7 +472,7 @@ def create_purchase_invoices(order_name):
     created_docs = []
 
     # subcontractor -> {"items": [...], "trips": set()}
-    subcontractor_bucket = {}
+    subcontractor_bucket = {}   
 
     for t in trips:
         trip = frappe.get_doc("Trip", t.name)
@@ -486,6 +510,7 @@ def create_purchase_invoices(order_name):
             for cost in trip.costs:
                 if not cost.tms_cost:
                     continue
+
                 tms_cost = frappe.get_doc("TMS Cost", cost.tms_cost)
                 if not tms_cost.purchase_item:
                     continue
@@ -521,7 +546,7 @@ def create_purchase_invoices(order_name):
                 je.append(
                     "accounts",
                     {
-                        "cost_center": settings.cost_center,
+                        "cost_center": customer_doc.cost_center or settings.cost_center,
                         "account": expense_account,
                         "debit_in_account_currency": amount,
                         "party_type": "",
@@ -532,7 +557,7 @@ def create_purchase_invoices(order_name):
                 je.append(
                     "accounts",
                     {
-                        "cost_center": settings.cost_center,
+                        "cost_center": customer_doc.cost_center or settings.cost_center,
                         "account": credit_account,
                         "credit_in_account_currency": amount,
                         "party_type": "",

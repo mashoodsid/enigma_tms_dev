@@ -100,10 +100,16 @@ class Trip(Document):
 
         self.update_transport_order_status()
 
+    def run_validations(self):
+        for i in self.stops:
+            if i.weight_tons <= 0 and i.status == "Completed":
+                frappe.throw(f"Please add a weight for Stop Lane {i.order_line}, Sequence {i.seq}.")
+                
     def before_update_after_submit(self):
         # Runs when an already-submitted Trip is edited (the dispatch workflow:
         # status/stops/POD/costs change after the trip is submitted).
         self.run_calculations()
+        self.run_validations()
         self.enforce_pod_gate()
         self.update_status()
         self.update_transport_order_status()
@@ -115,6 +121,7 @@ class Trip(Document):
         self.auto_update_stop_status()
         self.compute_costs()
         self.compute_detention()
+
 
     def _pod_seqs(self):
         """Set of stop seqs that have at least one POD. A POD left without a
@@ -208,6 +215,10 @@ class Trip(Document):
         self.trip_profit = flt(flt(self.selling_amount) - self.buying_total, 2)
 
     def enforce_pod_gate(self):
+        settings = frappe.get_doc("Transport Setting", "Transport Setting")
+        if settings.allow_trip_completion_without_proofs:
+            return
+        
         """Two hard rules (§5.2a):
         1. A stop cannot be Completed unless it has a POD attached.
         2. A Trip cannot be Delivered/Completed unless every stop is Completed.
@@ -489,8 +500,8 @@ def start_trip(trip, actual_start):
             f"Trailer {trip.trailer} is not available. Please complete the in-transit trip ({in_transit_trip}) before starting a new trip."
         )
 
-    if not trip.pods:
-        frappe.throw(_("Attach a POD before starting this Trip."))
+    # if not trip.pods:
+    #     frappe.throw(_("Attach a POD before starting this Trip."))
 
     trip.actual_start = get_datetime(actual_start)
     trip.status = "In Transit"

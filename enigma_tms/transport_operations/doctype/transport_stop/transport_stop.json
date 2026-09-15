@@ -11,16 +11,20 @@
   "location",
   "col_break_1",
   "planned_datetime",
-  "weight_tons",
   "load_description",
+  "exec_section",
+  "weight_tons",
+  "arrival_datetime",
+  "time",
+  "status",
+  "column_break_ktbh",
+  "record_departure_time",
+  "departure_datetime",
+  "waiting_hours",
   "contact_section",
   "contact_person",
-  "contact_phone",
-  "exec_section",
-  "status",
-  "arrival_datetime",
-  "departure_datetime",
-  "waiting_hours"
+  "column_break_kfjc",
+  "contact_phone"
  ],
  "fields": [
   {
@@ -67,8 +71,10 @@
    "label": "Planned"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "weight_tons",
    "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Weight (Tons)"
   },
   {
@@ -93,8 +99,7 @@
   },
   {
    "fieldname": "exec_section",
-   "fieldtype": "Section Break",
-   "label": "Execution"
+   "fieldtype": "Section Break"
   },
   {
    "allow_on_submit": 1,
@@ -110,27 +115,50 @@
   {
    "allow_on_submit": 1,
    "fieldname": "arrival_datetime",
-   "fieldtype": "Datetime",
-   "label": "Arrival"
+   "fieldtype": "Date",
+   "label": "Date"
   },
   {
    "allow_on_submit": 1,
+   "depends_on": "eval: doc.record_departure_time;",
    "fieldname": "departure_datetime",
    "fieldtype": "Datetime",
-   "label": "Departure"
+   "label": "Departure Time"
   },
   {
    "allow_on_submit": 1,
+   "depends_on": "eval: doc.record_departure_time;",
    "description": "Departure \u2212 Arrival (computed).",
    "fieldname": "waiting_hours",
    "fieldtype": "Float",
    "label": "Waiting Hours",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ktbh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "record_departure_time",
+   "fieldtype": "Check",
+   "label": "Record Departure Time"
+  },
+  {
+   "fieldname": "column_break_kfjc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "time",
+   "fieldtype": "Time",
+   "label": "Time"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2026-06-29 22:57:11.133235",
+ "modified": "2026-08-09 17:41:25.017042",
  "modified_by": "Administrator",
  "module": "Transport Operations",
  "name": "Transport Stop",
